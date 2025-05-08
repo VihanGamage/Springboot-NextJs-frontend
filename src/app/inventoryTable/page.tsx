@@ -48,9 +48,7 @@ function InventoryTable() {
     const [editingId, setEditingId] = useState<number | null>(null);
     const [dialogOpen, setDialogOpen] = useState(false);
 
-    useEffect(() => {
-        fetchPaginatedData();
-      }, [currentPage]);
+
       
       const fetchPaginatedData = async () => {
         try {
@@ -61,6 +59,10 @@ function InventoryTable() {
           console.error("Error fetching paginated data:", error);
         }
       };
+
+    useEffect(() => {
+        fetchPaginatedData();
+    }, [fetchPaginatedData]);
       
 
     const handleAdd = async () => {

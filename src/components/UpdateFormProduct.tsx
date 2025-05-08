@@ -5,10 +5,9 @@ import {useForm} from "react-hook-form"
 import * as z from "zod"
 import {Button} from "@/components/ui/button"
 import {Form, FormControl, FormField, FormItem, FormLabel, FormMessage} from "@/components/ui/form"
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
 import { Input } from "@/components/ui/input"
 import { toast } from "sonner"
-import axios from "axios";
 
 const FormSchema = z.object({
     name: z.string().min(1,"Name is required"),
@@ -41,7 +40,7 @@ export default function UpdateFormProduct({id, onClose} : UpdateFormProps) {
         },
     })
 
-    const { setValue, reset } = form;
+    const { setValue } = form;
 
     const loadData = async () => {
         try {
@@ -56,7 +55,7 @@ export default function UpdateFormProduct({id, onClose} : UpdateFormProps) {
 
     useEffect(() => {
         loadData();
-    }, [id, setValue]);
+    }, [id, setValue, loadData]);
 
     async function onSubmit(data : FormValues) {
 

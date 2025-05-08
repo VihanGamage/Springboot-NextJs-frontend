@@ -1,6 +1,4 @@
 import React from "react";
-import Photo from "@/Images/favicon.png"
-import Image from "next/image";
 import Link from "next/link";
 import {Menubar, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar"
 

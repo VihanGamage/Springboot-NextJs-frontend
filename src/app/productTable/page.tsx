@@ -1,7 +1,7 @@
 "use client";
 import {Table, TableBody, TableCell,
     TableHead, TableHeader, TableRow,} from "@/components/ui/table";
-import React, {use, useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import { toast } from "sonner"
 import {Button} from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
@@ -62,6 +62,10 @@ function ProductTable() {
           console.error("Error fetching paginated data:", error);
         }
       };
+
+    useEffect(() => {
+        fetchPaginatedData();
+    }, [fetchPaginatedData]);
       
 
     const handleAdd = async () => {

@@ -6,7 +6,7 @@ type EditInventoryDialogProps = {
     setOpen : (open:boolean) => void;
 }
 
-export default function InventoryDialog({id,open,setOpen}:EditInventoryDialogProps){
+export default function InventoryDialog({}:EditInventoryDialogProps){
     return(
         <div>
             hi
