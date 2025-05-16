@@ -15,7 +15,7 @@ interface Product{
     price:number
 }
 
-const api = process.env.NEXT_PUBLIC_AZURE_URL
+const api = process.env.NEXT_PUBLIC_AZURE_URL;
 
 console.log("API URL: ", api);
 
