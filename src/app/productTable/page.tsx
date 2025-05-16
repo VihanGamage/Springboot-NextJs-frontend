@@ -58,7 +58,7 @@ function ProductTable() {
       
       const fetchPaginatedData = async () => {
         try {
-          const res = await axios.get(`${api}/product/all?page=${currentPage}&size=8`);
+          const res = await axios.get(`https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net/product/all?page=${currentPage}&size=8`);
           setData(res.data.content);
           setTotalPages(res.data.totalPages);
         } catch (error) {
