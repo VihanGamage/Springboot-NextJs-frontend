@@ -21,13 +21,7 @@ const Navbar = () => {
                         </Link>
                     </MenubarTrigger>
                 </MenubarMenu>
-                <MenubarMenu>
-                    <MenubarTrigger>
-                        <Link href={"/joinTable"} className="text-2xl font-bold">
-                            
-                        </Link>
-                    </MenubarTrigger>
-                </MenubarMenu>
+
                
             </Menubar>
         </div>
