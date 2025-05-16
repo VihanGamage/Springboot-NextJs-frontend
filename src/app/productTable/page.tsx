@@ -15,9 +15,10 @@ interface Product{
     price:number
 }
 
+const api = process.env.AZURE_URL
 
 async function deleteData(id:number) : Promise<void> {
-    const res = await fetch(`http://localhost:8080/product/delete-${id}`,{
+    const res = await fetch(`${api}/product/delete-${id}`,{
         method:'DELETE',
     });
     if (!res.ok){
@@ -28,7 +29,7 @@ async function deleteData(id:number) : Promise<void> {
 }
 
 async function saveProduct(product: {name:string; price:number} ) : Promise<void>{
-    const res = await fetch(`http://localhost:8080/product/save`,{
+    const res = await fetch(`${api}/product/save`,{
         method:'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(product),
@@ -55,7 +56,7 @@ function ProductTable() {
       
       const fetchPaginatedData = async () => {
         try {
-          const res = await axios.get(`http://localhost:8080/product/all?page=${currentPage}&size=8`);
+          const res = await axios.get(`${api}/product/all?page=${currentPage}&size=8`);
           setData(res.data.content);
           setTotalPages(res.data.totalPages);
         } catch (error) {

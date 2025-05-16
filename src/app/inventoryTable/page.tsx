@@ -15,9 +15,10 @@ interface Inventory{
     capacity:number
 }
 
+const api = process.env.AZURE_URL
 
 async function deleteData(id:number) : Promise<void> {
-    const res = await fetch(`http://localhost:8080/inventory/delete-${id}`,{
+    const res = await fetch(`${api}/inventory/delete-${id}`,{
         method:'DELETE',
     });
     if (!res.ok){
@@ -28,7 +29,7 @@ async function deleteData(id:number) : Promise<void> {
 }
 
 async function saveInventory(inventory: {name:string; capacity:number} ) : Promise<void>{
-    const res = await fetch(`http://localhost:8080/inventory/save`,{
+    const res = await fetch(`${api}/inventory/save`,{
         method:'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(inventory),
@@ -52,7 +53,7 @@ function InventoryTable() {
       
       const fetchPaginatedData = async () => {
         try {
-          const res = await axios.get(`http://localhost:8080/inventory/all?page=${currentPage}&size=8`);
+          const res = await axios.get(`${api}/inventory/all?page=${currentPage}&size=8`);
           setData(res.data.content);
           setTotalPages(res.data.totalPages);
         } catch (error) {
