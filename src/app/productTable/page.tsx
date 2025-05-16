@@ -17,6 +17,8 @@ interface Product{
 
 const api = process.env.NEXT_PUBLIC_AZURE_URL
 
+console.log("API URL: ", api);
+
 async function deleteData(id:number) : Promise<void> {
     const res = await fetch(`${api}/product/delete-${id}`,{
         method:'DELETE',
