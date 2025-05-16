@@ -15,7 +15,7 @@ interface Product{
     price:number
 }
 
-const api = process.env.AZURE_URL
+const api = process.env.NEXT_PUBLIC_AZURE_URL
 
 async function deleteData(id:number) : Promise<void> {
     const res = await fetch(`${api}/product/delete-${id}`,{
