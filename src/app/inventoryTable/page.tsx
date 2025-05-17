@@ -15,7 +15,7 @@ interface Inventory{
     capacity:number
 }
 
-const api = process.env.NEXT_PUBLIC_AZURE_URL
+//const api = process.env.NEXT_PUBLIC_AZURE_URL
 
 async function deleteData(id:number) : Promise<void> {
     const res = await fetch(`https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net/inventory/delete-${id}`,{
