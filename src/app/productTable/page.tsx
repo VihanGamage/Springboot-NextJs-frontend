@@ -20,7 +20,7 @@ const api = process.env.NEXT_PUBLIC_AZURE_URL;
 console.log("API URL: ", api);
 
 async function deleteData(id:number) : Promise<void> {
-    const res = await fetch(`${api}/product/delete-${id}`,{
+    const res = await fetch(`https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net/product/delete-${id}`,{
         method:'DELETE',
     });
     if (!res.ok){
@@ -31,7 +31,7 @@ async function deleteData(id:number) : Promise<void> {
 }
 
 async function saveProduct(product: {name:string; price:number} ) : Promise<void>{
-    const res = await fetch(`${api}/product/save`,{
+    const res = await fetch(`https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net/product/save`,{
         method:'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(product),

@@ -18,7 +18,7 @@ interface Inventory{
 const api = process.env.NEXT_PUBLIC_AZURE_URL
 
 async function deleteData(id:number) : Promise<void> {
-    const res = await fetch(`${api}/inventory/delete-${id}`,{
+    const res = await fetch(`https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net/inventory/delete-${id}`,{
         method:'DELETE',
     });
     if (!res.ok){
@@ -29,7 +29,7 @@ async function deleteData(id:number) : Promise<void> {
 }
 
 async function saveInventory(inventory: {name:string; capacity:number} ) : Promise<void>{
-    const res = await fetch(`${api}/inventory/save`,{
+    const res = await fetch(`https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net/inventory/save`,{
         method:'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(inventory),
@@ -53,7 +53,7 @@ function InventoryTable() {
       
       const fetchPaginatedData = async () => {
         try {
-          const res = await axios.get(`${api}/inventory/all?page=${currentPage}&size=8`);
+          const res = await axios.get(`https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net/inventory/all?page=${currentPage}&size=8`);
           setData(res.data.content);
           setTotalPages(res.data.totalPages);
         } catch (error) {
