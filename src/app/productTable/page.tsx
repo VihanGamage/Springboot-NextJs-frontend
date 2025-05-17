@@ -16,10 +16,10 @@ interface Product{
 }
 
 //const api = process.env.NEXT_PUBLIC_AZURE_URL;
-//console.log("API URL: ", api);
+const api = "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
 
 async function deleteData(id:number) : Promise<void> {
-    const res = await fetch(`https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net/product/delete-${id}`,{
+    const res = await fetch(`${api}/product/delete-${id}`,{
         method:'DELETE',
     });
     if (!res.ok){
