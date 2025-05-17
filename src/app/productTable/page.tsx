@@ -30,7 +30,7 @@ async function deleteData(id:number) : Promise<void> {
 }
 
 async function saveProduct(product: {name:string; price:number} ) : Promise<void>{
-    const res = await fetch(`https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net/product/save`,{
+    const res = await fetch(`${api}/product/save`,{
         method:'POST',
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(product),
@@ -57,7 +57,7 @@ function ProductTable() {
       
       const fetchPaginatedData = async () => {
         try {
-          const res = await axios.get(`https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net/product/all?page=${currentPage}&size=8`);
+          const res = await axios.get(`${api}/product/all?page=${currentPage}&size=8`);
           setData(res.data.content);
           setTotalPages(res.data.totalPages);
         } catch (error) {
