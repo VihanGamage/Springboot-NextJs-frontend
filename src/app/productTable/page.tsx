@@ -15,9 +15,8 @@ interface Product{
     price:number
 }
 
-const api = process.env.NEXT_PUBLIC_API_URL;
+const api = process.env.NEXT_PUBLIC_API_URL ?? "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
 console.log(`api -> ${api}`)
-//const api = "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
 
 async function deleteData(id:number) : Promise<void> {
     const res = await fetch(`${api}/product/delete-${id}`,{
