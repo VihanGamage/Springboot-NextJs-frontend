@@ -11,13 +11,19 @@ on:
 
 jobs:
   build_and_deploy_job:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Build and Deploy Job
-
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - uses: actions/checkout@v3
+        with:
+          submodules: true
+          lfs: false
 
-      - name: Setup Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '18'
@@ -28,13 +34,27 @@ jobs:
       - name: Build Next.js app
         run: npm run build
 
-      - name: Export static files
+      - name: Export static site
         run: npm run export
 
-      - name: Deploy to Azure Static Web Apps
+      - name: Build And Deploy
+        id: builddeploy
         uses: Azure/static-web-apps-deploy@v1
         with:
-          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
-          app_location: "/"              # Your app source directory (root here)
-          api_location: ""               # No API here
-          output_location: "out"        # Output directory from `next export`
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_LIVELY_TREE_0257D6E00 }}
+          action: "upload"
+          app_location: "/"        # App source code path
+          api_location: ""         # Api source code path (if any)
+          output_location: "out"   # <-- Use "out" here, not ".next"
+          github_id_token: ${{ steps.idtoken.outputs.result }}
+
+  close_pull_request_job:
+    if: github.event_name == 'pull_request' && github.event.action == 'closed'
+    runs-on: ubuntu-latest
+    name: Close Pull Request Job
+    steps:
+      - name: Close Pull Request
+        id: closepullrequest
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          action: "close"
