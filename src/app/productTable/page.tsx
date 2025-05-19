@@ -15,8 +15,9 @@ interface Product{
     price:number
 }
 
-//const api = process.env.NEXT_PUBLIC_AZURE_URL;
-const api = "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
+const api = process.env.NEXT_PUBLIC_API_URL;
+console.log(`api -> ${api}`)
+//const api = "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
 
 async function deleteData(id:number) : Promise<void> {
     const res = await fetch(`${api}/product/delete-${id}`,{
@@ -50,10 +51,6 @@ function ProductTable() {
     const [editingId, setEditingId] = useState<number | null>(null);
     const [dialogOpen, setDialogOpen] =useState(false);
 
-
-    useEffect(() => {
-        fetchPaginatedData();
-      }, [currentPage]);
       
       const fetchPaginatedData = async () => {
         try {
@@ -66,8 +63,9 @@ function ProductTable() {
       };
 
     useEffect(() => {
+
         fetchPaginatedData();
-    }, [fetchPaginatedData]);
+    }, [currentPage]);
       
 
     const handleAdd = async () => {
