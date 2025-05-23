@@ -1,7 +1,7 @@
 "use client";
 import {Table, TableBody, TableCell,
     TableHead, TableHeader, TableRow,} from "@/components/ui/table";
-import React, {useEffect, useState} from "react";
+import React, {useCallback, useEffect, useState} from "react";
 import { toast } from "sonner"
 import {Button} from "@/components/ui/button";
 import { Input } from "@/components/ui/input"
@@ -16,7 +16,6 @@ interface Inventory{
 }
 
 const api = process.env.NEXT_PUBLIC_API_URL ?? "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
-console.log(`api -> ${api}`)
 
 async function deleteData(id:number) : Promise<void> {
     const res = await fetch(`${api}/inventory/delete-${id}`,{
@@ -52,7 +51,7 @@ function InventoryTable() {
 
 
       
-      const fetchPaginatedData = async () => {
+      const fetchPaginatedData = useCallback(async () => {
         try {
           const res = await axios.get(`${api}/inventory/all?page=${currentPage}&size=8`);
           setData(res.data.content);
@@ -60,7 +59,7 @@ function InventoryTable() {
         } catch (error) {
           console.error("Error fetching paginated data:", error);
         }
-      };
+      },[currentPage]);
 
     useEffect(() => {
         fetchPaginatedData();
