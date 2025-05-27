@@ -169,6 +169,7 @@ function InventoryTable() {
                     id={editingId}
                     open={dialogOpen}
                     setOpen={setDialogOpen}
+                    onUpdate={fetchPaginatedData}
                 />
             )}
 

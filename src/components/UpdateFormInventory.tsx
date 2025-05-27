@@ -12,8 +12,7 @@ import { toast } from "sonner"
 const api = process.env.NEXT_PUBLIC_API_URL ?? "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
 
 const FormSchema = z.object({
-    name: z.string().min(1,"Name is required"),
-    price: z.string().min(1,"Price is required"),
+    capacity: z.string().min(1,"Capacity is required"),
 })
 
 type FormValues = z.infer<typeof FormSchema>
@@ -23,22 +22,20 @@ interface UpdateFormProps {
     onClose: () => void;
 }
 
-async function getFormData(id: number): Promise<{ name: string; price: number }> {
-    const res = await fetch(`${api}/product/get-${id}`);
+async function getFormData(id: number): Promise<{ name: string; capacity: number }> {
+    const res = await fetch(`${api}/inventory/get-${id}`);
     if (!res.ok) {
-        throw new Error("Failed to fetch product");
+        throw new Error("Failed to fetch inventory");
     }
     return res.json();
 }
 
-
-export default function UpdateFormProduct({id, onClose} : UpdateFormProps) {
+export default function UpdateFormInventory({id, onClose} : UpdateFormProps) {
 
     const form = useForm({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            name: "",
-            price: ""
+            capacity: ""
         },
     })
 
@@ -47,10 +44,9 @@ export default function UpdateFormProduct({id, onClose} : UpdateFormProps) {
     const loadData = useCallback(async () => {
         try {
             const data = await getFormData(id);
-            setValue("name", data.name);
-            setValue("price", data.price.toString()); // convert number to string for input
+            setValue("capacity", data.capacity.toString()); // convert number to string for input
         } catch (error) {
-            toast.error("Failed to load product data");
+            toast.error("Failed to load inventory data");
             console.error(error);
         }
     }, [id,setValue]);
@@ -62,15 +58,8 @@ export default function UpdateFormProduct({id, onClose} : UpdateFormProps) {
 
     async function onSubmit(data : FormValues) {
         console.log(data)
-        const res = await fetch(`${api}/product/put-${id}`, {
+        const res = await fetch(`${api}/inventory/put-${id}?capacity=${data.capacity}`, {
             method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: data.name,
-                price: data.price
-            }),
         });
         if (!res.ok) {
             console.log(`Not valid URL! \nStatus: ${res.status}, ${res.statusText}`)
@@ -86,34 +75,20 @@ export default function UpdateFormProduct({id, onClose} : UpdateFormProps) {
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 
-                <FormField
+                    <FormField
                         control={form.control}
-                        name="name"
+                        name="capacity"
                         render={({field}) => (
                             <FormItem>
-                                <FormLabel>Name</FormLabel>
+                                <FormLabel>Capacity</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Name" {...field} />
+                                    <Input placeholder="Capacity" {...field} />
                                 </FormControl>
                                 <FormMessage/>
                             </FormItem>
                         )}
                     />
 
-                    <FormField
-                        control={form.control}
-                        name="price"
-                        render={({field}) => (
-                            <FormItem>
-                                <FormLabel>Price</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Price" {...field} />
-                                </FormControl>
-                                <FormMessage/>
-                            </FormItem>
-                        )}
-                    />
-                    
                     <Button className="ml-2" type="submit">Submit</Button>
                 </form>
             </Form>
@@ -121,3 +96,6 @@ export default function UpdateFormProduct({id, onClose} : UpdateFormProps) {
 
     )
 }
+
+
+

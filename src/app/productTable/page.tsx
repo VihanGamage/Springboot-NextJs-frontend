@@ -61,7 +61,6 @@ function ProductTable() {
       },[currentPage]);
 
     useEffect(() => {
-
         fetchPaginatedData();
     }, [fetchPaginatedData]);
       
@@ -171,6 +170,7 @@ function ProductTable() {
                     id={editingId}
                     open={dialogOpen}
                     setOpen={setDialogOpen}
+                    onUpdate={fetchPaginatedData}
                 />
             )}
 
