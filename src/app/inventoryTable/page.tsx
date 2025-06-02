@@ -4,7 +4,6 @@ import {Table, TableBody, TableCell,
 import React, {useCallback, useEffect, useState} from "react";
 import { toast } from "sonner"
 import {Button} from "@/components/ui/button";
-import { Input } from "@/components/ui/input"
 import { Paginations } from "@/components/Paginations";
 import axios from "axios";
 import InventoryDialog from "@/components/InventoryDialog";
@@ -28,27 +27,13 @@ async function deleteData(id:number) : Promise<void> {
     }
 }
 
-async function saveInventory(inventory: {name:string; capacity:number} ) : Promise<void>{
-    const res = await fetch(`${api}/inventory/save`,{
-        method:'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(inventory),
-    });
-    if (!res.ok) {
-        toast.error("Failed to add inventory");
-        throw new Error("Save failed");
-    }
-    toast.success("Inventory added");
-}
 
 function InventoryTable() {
     const [data, setData] = useState<Inventory[]>([]);
-    const [newInventory, setNewInventory] = useState({name:"",capacity:0});
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
     const [editingId, setEditingId] = useState<number | null>(null);
     const [dialogOpen, setDialogOpen] = useState(false);
-
 
       
       const fetchPaginatedData = useCallback(async () => {
@@ -65,20 +50,6 @@ function InventoryTable() {
         fetchPaginatedData();
     }, [fetchPaginatedData]);
       
-
-    const handleAdd = async () => {
-        if(newInventory.name=="" || newInventory.capacity==0){
-            toast("Please fill all fields correctly");
-            return;
-        }
-        try{
-            await saveInventory(newInventory);
-            setNewInventory({ name: "", capacity: 0 }); // reset form
-            await fetchPaginatedData();
-        }catch(error){
-            console.error(error);
-        }
-    };
 
     const handleEdit = (id:number) => {
         setEditingId(id);
@@ -131,31 +102,8 @@ function InventoryTable() {
 
                     </TableRow>
                 ))}
-                {/* new row */}
-                <TableRow>
-                    <TableCell className="text-center"></TableCell>
-                    <TableCell className="text-center">
-                        <Input
-                            className="mx-auto w-40"
-                            placeholder="Name"
-                            value={newInventory.name}
-                            onChange={(e) => setNewInventory({ ...newInventory, name: (e.target.value) })}
-                        />
-                    </TableCell>
-                    <TableCell className="text-center">
-                        <Input
-                            className="mx-auto w-40"
-                            placeholder="Price"
-                            value={newInventory.capacity}
-                            onChange={(e) => setNewInventory({ ...newInventory, capacity: Number(e.target.value) })}
-                        />
-                    </TableCell>
-                    <TableCell className="text-center" colSpan={2}>
-                        <Button onClick={handleAdd} className="w-60 cursor-pointer">
-                            Add
-                        </Button>
-                    </TableCell>
-                </TableRow>
+                
+                
             </TableBody>
         </Table>
         <Paginations

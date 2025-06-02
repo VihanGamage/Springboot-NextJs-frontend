@@ -21,6 +21,13 @@ const Navbar = () => {
                         </Link>
                     </MenubarTrigger>
                 </MenubarMenu>
+                <MenubarMenu>
+                    <MenubarTrigger>
+                        <Link href={"/reviews"} className="text-2xl font-bold">
+                            Reviews
+                        </Link>
+                    </MenubarTrigger>
+                </MenubarMenu>
 
                
             </Menubar>

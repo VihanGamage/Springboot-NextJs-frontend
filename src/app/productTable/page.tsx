@@ -36,9 +36,9 @@ async function saveProduct(product: {name:string; price:number} ) : Promise<void
     });
     if (!res.ok) {
         toast.error("Failed to add product");
-        throw new Error("Save failed");
+    }else{
+        toast.success("Product added")
     }
-    toast.success("Product added");
 }
 
 function ProductTable() {
@@ -97,7 +97,7 @@ function ProductTable() {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {data.map((user:Product) => (
+                {data?.map((user:Product) => (
                     <TableRow key={user.id}>
                         <TableCell className="font-normal text-center">{user.id}</TableCell>
                         <TableCell className="font-medium text-center">{user.name}</TableCell>
