@@ -56,7 +56,7 @@ function Reviews(){
     return (
         <div>
         <Table className="w-2/3 ml-auto mr-auto mt-4">
-            <TableHeader className="bg-slate-200">
+            <TableHeader className="bg-slate-500 hover:bg-slate-500">
                 <TableRow>
                     <TableHead className="font-bold text-center text-base">Product Name</TableHead>
                     <TableHead className="font-bold text-center text-base">Reviews</TableHead>
@@ -70,7 +70,7 @@ function Reviews(){
                         <TableCell className="font-medium text-center">{user.productName}</TableCell>
                         <TableCell className="font-medium text-center">{user.reviewCount}</TableCell>
                         <TableCell className="font-medium text-center">
-                            <Button
+                            <Button variant="secondary"
                                 className="cursor-pointer"
                                 onClick={() => openShowReview(user.productName)}
                                 >
