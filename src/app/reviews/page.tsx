@@ -3,27 +3,29 @@
 import {Table, TableBody, TableCell,
     TableHead, TableHeader, TableRow,} from "@/components/ui/table";
 import React, {useCallback, useEffect, useState} from "react";
-import { toast } from "sonner"
 import {Button} from "@/components/ui/button";
-import { Input } from "@/components/ui/input"
 import { Paginations } from "@/components/Paginations";
 import axios from "axios";
-import ProductDialog from "@/components/ProductDialog";
+import ReviewAddDialog from "@/components/ReviewAddDialog";
+import ReviewShowDialog from "@/components/ReviewShowDialog";
 
 interface ReviewProps{
-    id:number,
-    name:string,
-    reviews:number
+    productName:string,
+    reviewCount:number
 }
 
 const api = process.env.NEXT_PUBLIC_API_URL ?? "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
-
 
 function Reviews(){
 
     const [data, setData] = useState<ReviewProps[]>([]);
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
+
+    const [productName, setProductName] = useState<string | null>(null);
+    const [dialogOpen, setDialogOpen] =useState(false);
+    const [showDialogOpen, setShowDialogOpen] = useState(false);
+    const [showProductName, setShowProductName] = useState("");
       
       const fetchPaginatedData = useCallback(async () => {
         try {
@@ -39,22 +41,50 @@ function Reviews(){
         fetchPaginatedData();
     }, [fetchPaginatedData]);
 
+
+    
+    const openReviewDialog = (productName: string) => {
+        setProductName(productName);
+        setDialogOpen(true);
+    };
+
+    const openShowReview = (showProductName: string) => {
+        setShowProductName(showProductName);
+        setShowDialogOpen(true);
+    }
+
     return (
         <div>
         <Table className="w-2/3 ml-auto mr-auto mt-4">
             <TableHeader className="bg-slate-200">
                 <TableRow>
-                    <TableHead className="font-bold text-center text-base">ID</TableHead>
-                    <TableHead className="font-bold text-center text-base">Name</TableHead>
+                    <TableHead className="font-bold text-center text-base">Product Name</TableHead>
                     <TableHead className="font-bold text-center text-base">Reviews</TableHead>
+                    <TableHead className="font-bold text-center text-base">Show Reviews</TableHead>
+                    <TableHead className="font-bold text-center text-base">Add Review</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
                 {data.map((user:ReviewProps) => (
-                    <TableRow key={user.id}>
-                        <TableCell className="font-normal text-center">{user.id}</TableCell>
-                        <TableCell className="font-medium text-center">{user.name}</TableCell>
-                        <TableCell className="font-medium text-center">{user.reviews}</TableCell>
+                    <TableRow key={user.productName}>
+                        <TableCell className="font-medium text-center">{user.productName}</TableCell>
+                        <TableCell className="font-medium text-center">{user.reviewCount}</TableCell>
+                        <TableCell className="font-medium text-center">
+                            <Button
+                                className="cursor-pointer"
+                                onClick={() => openShowReview(user.productName)}
+                                >
+                                Show
+                            </Button>
+                        </TableCell>
+                        <TableCell className="font-medium text-center">
+                            <Button
+                                className="cursor-pointer"
+                                onClick={() => openReviewDialog(user.productName)}
+                                >
+                                Add
+                            </Button>
+                        </TableCell>
                     </TableRow>
                 ))}
                 
@@ -65,6 +95,24 @@ function Reviews(){
             currentPage={currentPage}
             setCurrentPage={setCurrentPage}
         />
+
+        {productName !== null &&(
+                        <ReviewAddDialog
+                            productName={productName}
+                            open={dialogOpen}
+                            setOpen={setDialogOpen}
+                            onUpdate={fetchPaginatedData}
+                        />
+                    )}
+
+        {showDialogOpen && (
+            <ReviewShowDialog
+                showProductName={showProductName}
+                open={showDialogOpen}
+                setOpen={setShowDialogOpen}
+            />
+        )}            
+        
 
         </div>
     )
