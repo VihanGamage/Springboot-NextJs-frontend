@@ -87,7 +87,7 @@ function ProductTable() {
     return (
         <div>
         <Table className="w-2/3 ml-auto mr-auto mt-4">
-            <TableHeader className="bg-slate-500 hover:bg-slate-500">
+            <TableHeader className="bg-gray-500">
                 <TableRow>
                     <TableHead className="font-bold text-center text-base">ID</TableHead>
                     <TableHead className="font-bold text-center text-base">Name</TableHead>
