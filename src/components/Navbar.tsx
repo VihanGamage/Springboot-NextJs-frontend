@@ -28,6 +28,13 @@ const Navbar = () => {
                         </Link>
                     </MenubarTrigger>
                 </MenubarMenu>
+                <MenubarMenu>
+                    <MenubarTrigger>
+                        <Link href={"/order"} className="text-2xl font-bold">
+                            Order
+                        </Link>
+                    </MenubarTrigger>
+                </MenubarMenu>
 
                
             </Menubar>
