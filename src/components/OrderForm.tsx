@@ -19,10 +19,12 @@ const FormSchema = z.object({
 type FormValues = z.infer<typeof FormSchema>
 
 interface UpdateFormProps {
+    productName:string;
+    quantity:number;
     onClose: () => void;
 }
 
-export default function OrderForm(onClose : UpdateFormProps) {
+export default function OrderForm({productName,quantity,onClose} : UpdateFormProps) {
 
     const form = useForm({
         resolver: zodResolver(FormSchema),
@@ -41,13 +43,16 @@ export default function OrderForm(onClose : UpdateFormProps) {
             },
             body: JSON.stringify({
                 name: data.name,
-                address: data.address
+                address: data.address,
+                quantity:quantity,
+                productName:productName
             }),
         });
         if (!res.ok) {
             console.log(`Not valid URL! \nStatus: ${res.status}, ${res.statusText}`)
         } else {
             toast("Order Added")
+            onClose();
         }
     }
 

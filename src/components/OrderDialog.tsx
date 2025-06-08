@@ -6,11 +6,13 @@ import {Button} from "@/components/ui/button";
 import OrderForm from "./OrderForm";
 
 type OrderDialogProps = {
+    productName:string;
+    quantity:number;
     open : boolean;
     setOpen : (open:boolean) => void;
 }
 
-export default function InventoryDialog({open,setOpen}:OrderDialogProps){
+export default function InventoryDialog({productName,quantity,open,setOpen}:OrderDialogProps){
 
     return(
         <Dialog open={open} onOpenChange={setOpen}>
@@ -19,7 +21,7 @@ export default function InventoryDialog({open,setOpen}:OrderDialogProps){
                     <DialogTitle>Order Details</DialogTitle>
                 </DialogHeader>
 
-                <OrderForm onClose={() => {
+                <OrderForm productName={productName} quantity={quantity} onClose={() => {
                     setOpen(false)
                 }}/>
 

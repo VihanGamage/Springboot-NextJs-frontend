@@ -22,6 +22,7 @@ export default function Order(){
     const [currentPage, setCurrentPage] = useState(0);
 
     const [quantity,setQuantity] = useState(0);
+    const [productName, setProductName] = useState("");
     const [orderDialogOpen, setOrderDialogOpen] = useState(false);
 
     const fetchPaginatedData = useCallback(async () => {
@@ -38,12 +39,13 @@ export default function Order(){
         fetchPaginatedData();
     }, [fetchPaginatedData]);
 
-    const orderDialog = () => {
-        setOrderDialogOpen(true);
-    }   
+    //const orderDialog = () => {
+        //setOrderDialogOpen(true);
+    //}   
     
-    const quantityHandler = (quantity:number) => {
+    const quantityHandler = (quantity:number,productName:string) => {
         setQuantity(quantity);
+        setProductName(productName);
     }
 
     return(
@@ -67,7 +69,7 @@ export default function Order(){
                             placeholder="quantity"
                             value={quantity}
                             //onChange={(e) => setQuantity(parseFloat(e.target.value))}
-                            onChange={() => quantityHandler(quantity)}
+                            onChange={() => quantityHandler(quantity,productName)}
                             />
                         </TableCell>
                         <TableCell className="font-medium text-center">
@@ -93,6 +95,8 @@ export default function Order(){
 
         {orderDialogOpen && (
             <OrderDialog
+                productName={productName}
+                quantity={quantity}
                 open={orderDialogOpen}
                 setOpen={setOrderDialogOpen}
             />
