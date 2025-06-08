@@ -50,7 +50,7 @@ export default function ReviewShowDialog({showProductName,open,setOpen} : Dialog
                 (<p>No Reviews found</p>) 
                 : 
                 (data.map((review, index) => (
-                    <div key={index} className="bg-gray-100 rounded-md p-3">
+                    <div key={index} className="rounded-md p-3 bg-gray-100 dark:bg-gray-800 text-black dark:text-white">
                         {review.review}
                     </div>
                 )))
