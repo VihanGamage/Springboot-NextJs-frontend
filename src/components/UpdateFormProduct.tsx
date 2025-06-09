@@ -13,7 +13,7 @@ const api = process.env.NEXT_PUBLIC_API_URL ?? "https://ecommerce-store-vihan-bk
 
 const FormSchema = z.object({
     name: z.string().min(1,"Name is required"),
-    price: z.string().min(1,"Price is required"),
+    price: z.string().regex(/^[1-9][0-9]*$/, "Price must be a number")
 })
 
 type FormValues = z.infer<typeof FormSchema>
