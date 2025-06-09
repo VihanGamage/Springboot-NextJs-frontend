@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import axios from "axios"
+import { userAgent } from "next/server"
 import { useCallback, useEffect, useState } from "react";
 
 interface DataProps{
@@ -21,13 +22,13 @@ export default function Order(){
     const [totalPages, setTotalPages] = useState(0);
     const [currentPage, setCurrentPage] = useState(0);
 
-    const [quantity,setQuantity] = useState(0);
+    const [quantity,setQuantity] = useState<{[productName:string]:string}>({});
     const [productName, setProductName] = useState("");
     const [orderDialogOpen, setOrderDialogOpen] = useState(false);
 
     const fetchPaginatedData = useCallback(async () => {
         try {
-          const res = await axios.get(`${api}/order/all?page=${currentPage}&size=8`);
+          const res = await axios.get(`${api}/order/table?page=${currentPage}&size=8`);
           setData(res.data.content);
           setTotalPages(res.data.totalPages);
         } catch (error) {
@@ -39,12 +40,11 @@ export default function Order(){
         fetchPaginatedData();
     }, [fetchPaginatedData]);
 
-    //const orderDialog = () => {
-        //setOrderDialogOpen(true);
-    //}   
+
     
-    const quantityHandler = (quantity:number,productName:string) => {
-        setQuantity(quantity);
+    const quantityHandler = (quantity:string,productName:string) => {
+        const onlyNumbers = quantity.replace(/[^0-9]/g, "");
+        setQuantity({[productName]:onlyNumbers});
         setProductName(productName);
     }
 
@@ -64,19 +64,21 @@ export default function Order(){
                     <TableRow key={user.productName}>
                         <TableCell className="font-medium text-center">{user.productName}</TableCell>
                         <TableCell className="font-medium text-center">{user.price}</TableCell>
-                        <TableCell className="font-medium text-center">
+                        <TableCell className="font-medium text-center align-middle">
                             <Input 
-                            placeholder="quantity"
-                            value={quantity}
-                            //onChange={(e) => setQuantity(parseFloat(e.target.value))}
-                            onChange={() => quantityHandler(quantity,productName)}
+                            className="w-24 mx-auto"
+                            type="text"
+                            placeholder="0"
+                            value={quantity[user.productName] || ""}
+                            onChange={(e) => quantityHandler((e.target.value),user.productName)}
                             />
                         </TableCell>
                         <TableCell className="font-medium text-center">
                             <Button
                                 className="cursor-pointer"
-                                //onClick={() => orderDialog}
-                                onClick={(e) => setOrderDialogOpen(true)}
+                                onClick={() => {
+                                    setOrderDialogOpen(true)
+                                }}
                                 >
                                 Buy
                             </Button>
@@ -96,7 +98,7 @@ export default function Order(){
         {orderDialogOpen && (
             <OrderDialog
                 productName={productName}
-                quantity={quantity}
+                quantity={Number(quantity[productName])}
                 open={orderDialogOpen}
                 setOpen={setOrderDialogOpen}
             />

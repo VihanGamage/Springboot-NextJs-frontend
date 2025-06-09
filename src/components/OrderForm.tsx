@@ -35,8 +35,7 @@ export default function OrderForm({productName,quantity,onClose} : UpdateFormPro
     })
 
     async function onSubmit(data : FormValues) {
-        console.log(data)
-        const res = await fetch(`${api}/order/save-`, {
+        const res = await fetch(`${api}/order/save`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
