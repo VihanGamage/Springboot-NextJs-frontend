@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import axios from "axios"
-import { userAgent } from "next/server"
 import { useCallback, useEffect, useState } from "react";
 
 interface DataProps{

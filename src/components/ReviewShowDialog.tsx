@@ -2,7 +2,7 @@
 
 import {Dialog,DialogClose,DialogContent,DialogHeader,DialogTitle} from "@/components/ui/dialog"
 import axios from "axios";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
 
 const api = process.env.NEXT_PUBLIC_API_URL ?? "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
@@ -33,7 +33,7 @@ export default function ReviewShowDialog({showProductName,open,setOpen} : Dialog
 
     useEffect(() => {
         getData();
-    }, [showProductName]);
+    }, [data]);
 
 
     return(
