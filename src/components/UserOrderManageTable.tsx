@@ -1,7 +1,7 @@
 "use client"
 
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
@@ -37,14 +37,14 @@ export default function UserOrderManageTable( {name} : Props ){
 
     const [data, setData] = useState<DataProps[]>([])
 
-    const getUserData = async () => {
+    const getUserData = useCallback(async () => {
         try{
             const res = await axios.get(`${api}/order/user-${name}`)
             setData(res.data);
         }catch (error){
             console.error("Error fetching data:", error);
         } 
-    }
+    },[name]);
 
     useEffect(() => {
         getUserData();

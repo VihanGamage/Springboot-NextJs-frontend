@@ -2,7 +2,7 @@
 
 import {Dialog,DialogClose,DialogContent,DialogHeader,DialogTitle} from "@/components/ui/dialog"
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Button } from "./ui/button";
 
 const api = process.env.NEXT_PUBLIC_API_URL ?? "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
@@ -22,14 +22,14 @@ export default function ReviewShowDialog({showProductName,open,setOpen} : Dialog
     
     const [data,setData] = useState<DataProps[]>([])
 
-    const getData = async () => {
+    const getData = useCallback(async () => {
         try {
           const res = await axios.get(`${api}/review/getall-${showProductName}`);
           setData(res.data);
         } catch (error) {
           console.error("Error fetching data:", error);
         }
-      };
+      },[showProductName]);
 
     useEffect(() => {
         getData();
