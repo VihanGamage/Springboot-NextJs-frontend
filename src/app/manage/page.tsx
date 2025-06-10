@@ -6,10 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
 import UserOrderManageTable from "@/components/UserOrderManageTable";
-import axios from "axios";
-import { useEffect, useState } from "react"
-
-//const api = process.env.NEXT_PUBLIC_API_URL ?? "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
+import { useState } from "react"
 
 export default function Manage(){
 
@@ -46,7 +43,7 @@ export default function Manage(){
             <Button 
                 type="submit" 
                 variant="outline"
-                onClick={(e) => setUserTable(true)}
+                onClick={() => setUserTable(true)}
             >
                 Enter
             </Button>

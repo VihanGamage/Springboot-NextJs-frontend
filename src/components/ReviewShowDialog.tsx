@@ -33,7 +33,7 @@ export default function ReviewShowDialog({showProductName,open,setOpen} : Dialog
 
     useEffect(() => {
         getData();
-    }, [data]);
+    }, []);
 
 
     return(

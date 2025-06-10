@@ -24,11 +24,6 @@ async function updateOrderStatus(id:number, orderStatus:string) {
     const res = await fetch(`${api}/order/patch-${id}-${orderStatus}`,{
             method:'PATCH',
     });
-    if (!res.ok){
-        throw new Error("failed")
-    }else {
-        toast.success("Updated Successfully")
-    }
 }
 
 
@@ -57,6 +52,7 @@ export default function AdminOrderManageTable(){
         try{
             await updateOrderStatus(id, value);
             await getUserData();
+            toast.success("Updated Successfully");
         }catch(error){
             toast.error("Failed to update status");
         }

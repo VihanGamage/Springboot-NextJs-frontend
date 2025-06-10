@@ -48,7 +48,7 @@ export default function UserOrderManageTable( {name} : Props ){
 
     useEffect(() => {
         getUserData();
-    }, [data]);
+    }, []);
     
     return(
         <>
