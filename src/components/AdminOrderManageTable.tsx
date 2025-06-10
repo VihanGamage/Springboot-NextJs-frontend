@@ -60,6 +60,7 @@ export default function AdminOrderManageTable(){
             await getUserData();
             toast.success("Updated Successfully");
         }catch(error){
+            console.error("Failed to update status:", error);
             toast.error("Failed to update status");
         }
     }
@@ -71,7 +72,7 @@ export default function AdminOrderManageTable(){
                 <TableRow>
                     <TableHead className="font-bold text-center text-base">ID</TableHead>
                     <TableHead className="font-bold text-center text-base">User</TableHead>
-                    <TableHead className="font-bold text-center text-base">product Name</TableHead>
+                    <TableHead className="font-bold text-center text-base">Product Name</TableHead>
                     <TableHead className="font-bold text-center text-base">Quantity</TableHead>
                     <TableHead className="font-bold text-center text-base">Price</TableHead>
                     <TableHead className="font-bold text-center text-base">order Status</TableHead>
