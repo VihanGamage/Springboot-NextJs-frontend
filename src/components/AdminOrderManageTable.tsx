@@ -1,11 +1,12 @@
 "use client"
 
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
-import { Button } from "./ui/button";
 import { toast } from "sonner";
 import {Select,SelectContent,SelectItem,SelectTrigger,SelectValue} from "@/components/ui/select"
+import { Paginations } from "./Paginations";
+import { format } from "date-fns";
 
 const api = process.env.NEXT_PUBLIC_API_URL ?? "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
 
@@ -15,19 +16,18 @@ interface DataProps{
     productName:string;
     quantity:number;
     total:number;
-    order_status:string;
+    orderStatus:string;
     placed_at:string;
 }
 
-
-async function deleteData(id:number) : Promise<void>{
-    const res = await fetch(`${api}/order/delete-${id}`,{
-            method:'DELETE',
+async function updateOrderStatus(id:number, orderStatus:string) {
+    const res = await fetch(`${api}/order/patch-${id}-${orderStatus}`,{
+            method:'PATCH',
     });
     if (!res.ok){
         throw new Error("failed")
     }else {
-        toast.success("Deleted Successfully")
+        toast.success("Updated Successfully")
     }
 }
 
@@ -35,24 +35,36 @@ async function deleteData(id:number) : Promise<void>{
 export default function AdminOrderManageTable(){
 
     const [data, setData] = useState<DataProps[]>([])
-    const [orderStatus, setOrderStatus] = useState("PENDING");
+    const [totalPages, setTotalPages] = useState(0);
+    const [currentPage, setCurrentPage] = useState(0);
 
-    const getUserData = async () => {
+    const getUserData = useCallback(async () => {
         try{
-            const res = await axios.get(`${api}/order/user`)
-            setData(res.data);
+            const res = await axios.get(`${api}/order/admin-orders?page=${currentPage}&size=8`)
+            setData(res.data.content);
+            setTotalPages(res.data.totalPages);
         }catch (error){
-            console.error("Error fetching data:", error);
+            console.error("Error fetching paginated data:", error);
         } 
-    }
+    },[currentPage]);
 
     useEffect(() => {
         getUserData();
-    }, [data]);
+    }, [getUserData]);
+
+
+    const handleOrderStatus = async (id:number, value:string) => {
+        try{
+            await updateOrderStatus(id, value);
+            await getUserData();
+        }catch(error){
+            toast.error("Failed to update status");
+        }
+    }
     
     return(
         <>
-            <Table className="w-2/3 ml-auto mr-auto mt-4">
+            <Table className="w-2/3 ml-auto mr-auto mt-8">
             <TableHeader className="bg-gray-500">
                 <TableRow>
                     <TableHead className="font-bold text-center text-base">ID</TableHead>
@@ -73,26 +85,34 @@ export default function AdminOrderManageTable(){
                         <TableCell className="font-medium text-center">{user.quantity}</TableCell>
                         <TableCell className="font-medium text-center">{user.total}</TableCell>
                         
-                        <TableCell className="font-medium text-center">
-                            <Select onValueChange={(value) => setOrderStatus(value)}>
-                                <SelectTrigger className="w-[180px]">
-                                    <SelectValue placeholder={user.order_status} />
+                        <TableCell className="font-medium text-center align-middle">
+                            <Select
+                                onValueChange={(value) => handleOrderStatus(user.id, value)}>
+                                <SelectTrigger className="w-[240px] mx-auto">
+                                    <SelectValue placeholder={user.orderStatus}/>
                                 </SelectTrigger>
                                 <SelectContent>
-                                    <SelectItem value="pending">PENDING</SelectItem>
-                                    <SelectItem value="shipped">SHIPPED</SelectItem>
-                                    <SelectItem value="cancel">CANCEL</SelectItem>
+                                    <SelectItem value="PENDING">PENDING</SelectItem>
+                                    <SelectItem value="SHIPPED">SHIPPED</SelectItem>
+                                    <SelectItem value="CANCELLED">CANCELLED</SelectItem>
                                 </SelectContent>
                             </Select>
                         </TableCell>
                         
-                        <TableCell className="font-medium text-center">{user.placed_at}</TableCell>
+                        <TableCell className="font-medium text-center">
+                            {format(new Date(user.placed_at), "PPp")}
+                        </TableCell>
 
 
                     </TableRow>
                 ))}
             </TableBody>
         </Table>
+        <Paginations
+            totalPages={totalPages}
+            currentPage={currentPage}
+            setCurrentPage={setCurrentPage}
+        />
         </>
     )
 }

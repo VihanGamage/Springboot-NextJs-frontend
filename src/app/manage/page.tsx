@@ -31,13 +31,13 @@ export default function Manage(){
             </div>
         </div>
 
-        <Label className="ml-60 mb-4">
+        <Label className="ml-64 mb-4">
             Enter your name to see the orders
         </Label>
 
         <div className="flex w-full items-center gap-2">
             <Input
-                className="w-60 ml-60"
+                className="w-60 ml-64"
                 placeholder="Your Name"
                 type="text"
                 value={user}
