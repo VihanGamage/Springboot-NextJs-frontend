@@ -45,6 +45,7 @@ export default function AdminOrderManageTable(){
             setTotalPages(res.data.totalPages);
         }catch (error){
             console.error("Error fetching paginated data:", error);
+            toast.error("Failed to update status");
         } 
     },[currentPage]);
 
