@@ -5,6 +5,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
 import { Button } from "./ui/button";
 import { toast } from "sonner";
+import { format } from "date-fns";
 
 const api = process.env.NEXT_PUBLIC_API_URL ?? "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
 
@@ -13,7 +14,7 @@ interface DataProps{
     productName:string;
     quantity:number;
     total:number;
-    order_status:string;
+    orderStatus:string;
     placed_at:string;
 }
 
@@ -21,14 +22,14 @@ interface Props{
     name:string;
 }
 
-async function deleteData(id:number) : Promise<void>{
-    const res = await fetch(`${api}/order/delete-${id}`,{
-            method:'DELETE',
+async function cancelOrder(id:number) : Promise<void>{
+    const res = await fetch(`${api}/order/cancel-${id}`,{
+            method:'PATCH',
     });
     if (!res.ok){
         throw new Error("failed")
     }else {
-        toast.success("Deleted Successfully")
+        toast.success("Canceled Order")
     }
 }
 
@@ -61,7 +62,7 @@ export default function UserOrderManageTable( {name} : Props ){
                     <TableHead className="font-bold text-center text-base">Price</TableHead>
                     <TableHead className="font-bold text-center text-base">order Status</TableHead>
                     <TableHead className="font-bold text-center text-base">placed Time</TableHead>
-                    <TableHead className="font-bold text-center text-base">Delete</TableHead>
+                    <TableHead className="font-bold text-center text-base">Cancel</TableHead>
                 </TableRow>
             </TableHeader>
             <TableBody>
@@ -71,8 +72,10 @@ export default function UserOrderManageTable( {name} : Props ){
                         <TableCell className="font-medium text-center">{user.productName}</TableCell>
                         <TableCell className="font-medium text-center">{user.quantity}</TableCell>
                         <TableCell className="font-medium text-center">{user.total}</TableCell>
-                        <TableCell className="font-medium text-center">{user.order_status}</TableCell>
-                        <TableCell className="font-medium text-center">{user.placed_at}</TableCell>
+                        <TableCell className="font-medium text-center">{user.orderStatus}</TableCell>
+                        <TableCell className="font-medium text-center">
+                            {format(new Date(user.placed_at), "PPp")}
+                        </TableCell>
 
                         <TableCell className="font-medium text-center">
                             <Button 
@@ -80,15 +83,15 @@ export default function UserOrderManageTable( {name} : Props ){
                             variant={"destructive"}
                             onClick={async () => {
                                 try{
-                                    await deleteData(user.id);
+                                    await cancelOrder(user.id);
                                     await getUserData();
                                 }catch (error){
                                     console.error(error);
-                                    toast("Failed to delete");
+                                    toast("Failed to cancel order");
                                 }
                             }}
                             >
-                                Delete
+                                Cancel
                             </Button>
                         </TableCell>
 
