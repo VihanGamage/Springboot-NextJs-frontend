@@ -1,12 +1,13 @@
 import React from "react";
 import Link from "next/link";
 import {Menubar, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar"
+import Image from "next/image";
 
 const Navbar = () => {
     return (
         <div className="flex justify-center items-center w-full mt-8">
-            {/* <Image src={Photo} width="auto" height={50} alt={"logo"}/> */}
-            <Menubar className="">
+            <Image src="/logo-image.png" width="40" height="15" alt={"logo"}/>
+            <Menubar className="ml-2">
                 <MenubarMenu>
                     <MenubarTrigger>
                         <Link href={"/productTable"} className="text-2xl font-bold">
