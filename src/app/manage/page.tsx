@@ -15,54 +15,49 @@ export default function Manage(){
     const [user,setUser] = useState("");
 
     
-    return(
-        <>
+    return (
+      <>
         <div className="flex justify-end">
-            <div className="flex items-center space-x-2 mr-32 mt-8">
-                <Switch 
-                    id="admin" 
-                    checked={admin}
-                    onCheckedChange={setAdmin}
-                />
-                <Label>Admin</Label>
-            </div>
+          <div className="flex items-center space-x-2 mr-32 mt-8">
+            <Switch id="admin" checked={admin} onCheckedChange={setAdmin} />
+            <Label>Admin</Label>
+          </div>
         </div>
 
-        <Label className="ml-64 mb-4">
+        {admin == false &&
+        <div>
+          <Label className="ml-64 mb-4">
             Enter your name to see the orders
-        </Label>
+          </Label>
 
-        <div className="flex w-full items-center gap-2">
+          <div className="flex w-full items-center gap-2">
             <Input
-                className="w-60 ml-64"
-                placeholder="Your Name"
-                type="text"
-                value={user}
-                onChange={(e) => setUser(e.target.value)}
+              className="w-60 ml-64"
+              placeholder="Your Name"
+              type="text"
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
             />
-            <Button 
-                type="submit" 
-                variant="outline"
-                onClick={() => setUserTable(true)}
+            <Button
+              type="submit"
+              variant="outline"
+              onClick={() => setUserTable(true)}
             >
-                Enter
+              Enter
             </Button>
-        </div>
+          </div>
+        </div> }
 
         <div>
-            {admin ?
-                (<AdminOrderManageTable/>) 
-            :   (
-                    (userTable ? 
-                        (<UserOrderManageTable name={user}/>)
-                    :
-                        (<></>)
-                    )
-                )
-            }
+          {admin ? (
+            <AdminOrderManageTable />
+          ) : userTable ? (
+            <UserOrderManageTable name={user} />
+          ) : (
+            <></>
+          )}
         </div>
-
-        </>
-    )
+      </>
+    );
 }
 
