@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Paginations } from "@/components/Paginations";
 import axios from "axios";
 import ProductDialog from "@/components/ProductDialog";
+import Navbar from "@/components/Navbar";
 
 interface Product{
     id:number,
@@ -85,96 +86,118 @@ function ProductTable() {
     };
 
     return (
-        <div>
+      <div>
+        <Navbar />
         <Table className="w-2/3 ml-auto mr-auto mt-4">
-            <TableHeader className="bg-gray-500">
-                <TableRow>
-                    <TableHead className="font-bold text-center text-base">ID</TableHead>
-                    <TableHead className="font-bold text-center text-base">Name</TableHead>
-                    <TableHead className="font-bold text-center text-base">Price</TableHead>
-                    <TableHead className="font-bold text-center text-base">Edit</TableHead>
-                    <TableHead className="font-bold text-center text-base">Delete</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {data?.map((user:Product) => (
-                    <TableRow key={user.id}>
-                        <TableCell className="font-normal text-center">{user.id}</TableCell>
-                        <TableCell className="font-medium text-center">{user.name}</TableCell>
-                        <TableCell className="font-medium text-center">{user.price}</TableCell>
-                        
-                        <TableCell className="font-medium text-center">
-                            <Button
-                            className="cursor-pointer"
-                            onClick={() => handleEdit(user.id)}
-                            >
-                                Edit
-                            </Button>
-                        </TableCell>
+          <TableHeader className="bg-gray-500">
+            <TableRow>
+              <TableHead className="font-bold text-center text-base">
+                ID
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                Name
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                Price
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                Edit
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                Delete
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data?.map((user: Product) => (
+              <TableRow key={user.id}>
+                <TableCell className="font-normal text-center">
+                  {user.id}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {user.name}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {user.price}
+                </TableCell>
 
-                        <TableCell className="font-medium text-center">
-                            <Button 
-                            className="cursor-pointer"
-                            variant={"destructive"}
-                            onClick={async () => {
-                                try{
-                                    await deleteData(user.id);
-                                    await fetchPaginatedData();
-                                }catch (error){
-                                    console.error(error);
-                                    toast("Failed to delete");
-                                }
-                            }}
-                            >
-                                Delete
-                            </Button>
-                        </TableCell>
+                <TableCell className="font-medium text-center">
+                  <Button
+                    className="cursor-pointer"
+                    onClick={() => handleEdit(user.id)}
+                  >
+                    Edit
+                  </Button>
+                </TableCell>
 
-                    </TableRow>
-                ))}
-                {/* new row */}
-                <TableRow>
-                    <TableCell className="text-center"></TableCell>
-                    <TableCell className="text-center">
-                        <Input
-                            className="mx-auto w-40"
-                            placeholder="Name"
-                            value={newProduct.name}
-                            onChange={(e) => setNewProduct({ ...newProduct, name: e.target.value })}
-                        />
-                    </TableCell>
-                    <TableCell className="text-center">
-                        <Input
-                            className="mx-auto w-40"
-                            placeholder="Price"
-                            value={newProduct.price}
-                            onChange={(e) => setNewProduct({ ...newProduct, price: parseFloat(e.target.value) })}
-                        />
-                    </TableCell>
-                    <TableCell className="text-center" colSpan={2}>
-                        <Button onClick={handleAdd} className="w-60 cursor-pointer">
-                            Add
-                        </Button>
-                    </TableCell>
-                </TableRow>
-            </TableBody>
+                <TableCell className="font-medium text-center">
+                  <Button
+                    className="cursor-pointer"
+                    variant={"destructive"}
+                    onClick={async () => {
+                      try {
+                        await deleteData(user.id);
+                        await fetchPaginatedData();
+                      } catch (error) {
+                        console.error(error);
+                        toast("Failed to delete");
+                      }
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+            {/* new row */}
+            <TableRow>
+              <TableCell className="text-center"></TableCell>
+              <TableCell className="text-center">
+                <Input
+                  className="mx-auto w-40"
+                  placeholder="Name"
+                  value={newProduct.name}
+                  onChange={(e) =>
+                    setNewProduct({ ...newProduct, name: e.target.value })
+                  }
+                />
+              </TableCell>
+              <TableCell className="text-center">
+                <Input
+                  className="mx-auto w-40"
+                  placeholder="Price"
+                  value={newProduct.price}
+                  onChange={(e) =>
+                    setNewProduct({
+                      ...newProduct,
+                      price: parseFloat(e.target.value),
+                    })
+                  }
+                />
+              </TableCell>
+              <TableCell className="text-center" colSpan={2}>
+                <Button onClick={handleAdd} className="w-60 cursor-pointer">
+                  Add
+                </Button>
+              </TableCell>
+            </TableRow>
+          </TableBody>
         </Table>
         <Paginations
-            totalPages={totalPages}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
         />
 
-            {editingId !== null && (
-                <ProductDialog
-                    id={editingId}
-                    open={dialogOpen}
-                    setOpen={setDialogOpen}
-                    onUpdate={fetchPaginatedData}
-                />
-            )}
-
-        </div>
-    )
+        {editingId !== null && (
+          <ProductDialog
+            id={editingId}
+            open={dialogOpen}
+            setOpen={setDialogOpen}
+            onUpdate={fetchPaginatedData}
+          />
+        )}
+      </div>
+    );
 }
 export default ProductTable

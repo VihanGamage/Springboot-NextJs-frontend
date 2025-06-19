@@ -1,5 +1,6 @@
 "use client"
 
+import Navbar from "@/components/Navbar"
 import OrderDialog from "@/components/OrderDialog"
 import { Paginations } from "@/components/Paginations"
 import { Button } from "@/components/ui/button"
@@ -47,63 +48,74 @@ export default function Order(){
         setProductName(productName);
     }
 
-    return(
-        <>
-            <Table className="w-2/3 ml-auto mr-auto mt-4">
-            <TableHeader className="bg-gray-500">
-                <TableRow>
-                    <TableHead className="font-bold text-center text-base">Product Name</TableHead>
-                    <TableHead className="font-bold text-center text-base">Price</TableHead>
-                    <TableHead className="font-bold text-center text-base">Quantity</TableHead>
-                    <TableHead className="font-bold text-center text-base">Buy</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {data?.map((user:DataProps) => (
-                    <TableRow key={user.productName}>
-                        <TableCell className="font-medium text-center">{user.productName}</TableCell>
-                        <TableCell className="font-medium text-center">{user.price}</TableCell>
-                        <TableCell className="font-medium text-center align-middle">
-                            <Input 
-                            className="w-24 mx-auto"
-                            type="text"
-                            placeholder="0"
-                            value={quantity[user.productName] || ""}
-                            onChange={(e) => quantityHandler((e.target.value),user.productName)}
-                            />
-                        </TableCell>
-                        <TableCell className="font-medium text-center">
-                            <Button
-                                className="cursor-pointer"
-                                onClick={() => {
-                                    setOrderDialogOpen(true)
-                                }}
-                                >
-                                Buy
-                            </Button>
-                        </TableCell>
-                    </TableRow>
-                ))}
-                
-            </TableBody>
+    return (
+      <>
+        <Navbar />
+        <Table className="w-2/3 ml-auto mr-auto mt-4">
+          <TableHeader className="bg-gray-500">
+            <TableRow>
+              <TableHead className="font-bold text-center text-base">
+                Product Name
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                Price
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                Quantity
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                Buy
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data?.map((user: DataProps) => (
+              <TableRow key={user.productName}>
+                <TableCell className="font-medium text-center">
+                  {user.productName}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {user.price}
+                </TableCell>
+                <TableCell className="font-medium text-center align-middle">
+                  <Input
+                    className="w-24 mx-auto"
+                    type="text"
+                    placeholder="0"
+                    value={quantity[user.productName] || ""}
+                    onChange={(e) =>
+                      quantityHandler(e.target.value, user.productName)
+                    }
+                  />
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  <Button
+                    className="cursor-pointer"
+                    onClick={() => {
+                      setOrderDialogOpen(true);
+                    }}
+                  >
+                    Buy
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
         </Table>
         <Paginations
-            totalPages={totalPages}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
         />
 
-
         {orderDialogOpen && (
-            <OrderDialog
-                productName={productName}
-                quantity={Number(quantity[productName])}
-                open={orderDialogOpen}
-                setOpen={setOrderDialogOpen}
-            />
-        )}         
-        
-
-        </>
-    )
+          <OrderDialog
+            productName={productName}
+            quantity={Number(quantity[productName])}
+            open={orderDialogOpen}
+            setOpen={setOrderDialogOpen}
+          />
+        )}
+      </>
+    );
 }

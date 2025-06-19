@@ -7,6 +7,7 @@ import {Button} from "@/components/ui/button";
 import { Paginations } from "@/components/Paginations";
 import axios from "axios";
 import InventoryDialog from "@/components/InventoryDialog";
+import Navbar from "@/components/Navbar";
 
 interface Inventory{
     id:number,
@@ -57,71 +58,84 @@ function InventoryTable() {
     };
 
     return (
-        <div>
+      <div>
+        <Navbar />
         <Table className="w-2/3 ml-auto mr-auto mt-4">
-            <TableHeader className="bg-gray-500">
-                <TableRow>
-                    <TableHead className="font-bold text-center text-base">ID</TableHead>
-                    <TableHead className="font-bold text-center text-base">Name</TableHead>
-                    <TableHead className="font-bold text-center text-base">Capacity</TableHead>
-                    <TableHead className="font-bold text-center text-base">Edit</TableHead>
-                    <TableHead className="font-bold text-center text-base">Delete</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {data.map((user:Inventory) => (
-                    <TableRow key={user.id}>
-                        <TableCell className="font-normal text-center">{user.id}</TableCell>
-                        <TableCell className="font-medium text-center">{user.name}</TableCell>
-                        <TableCell className="font-medium text-center">{user.capacity}</TableCell>
-                        <TableCell className="font-medium text-center">
-                            <Button
-                                className="cursor-pointer"
-                                onClick={() => handleEdit(user.id)}
-                            >
-                                Edit
-                            </Button>
-                        </TableCell>
-                        <TableCell className="font-medium text-center">
-                            <Button
-                            className="cursor-pointer" 
-                            variant={"destructive"}
-                            onClick={async () => {
-                                try{
-                                    await deleteData(user.id);
-                                    fetchPaginatedData();
-                                }catch (error){
-                                    console.error(error);
-                                    toast("Failed to delete");
-                                }
-                            }}
-                            >
-                                Delete
-                            </Button>
-                        </TableCell>
-
-                    </TableRow>
-                ))}
-                
-                
-            </TableBody>
+          <TableHeader className="bg-gray-500">
+            <TableRow>
+              <TableHead className="font-bold text-center text-base">
+                ID
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                Name
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                Capacity
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                Edit
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                Delete
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data.map((user: Inventory) => (
+              <TableRow key={user.id}>
+                <TableCell className="font-normal text-center">
+                  {user.id}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {user.name}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {user.capacity}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  <Button
+                    className="cursor-pointer"
+                    onClick={() => handleEdit(user.id)}
+                  >
+                    Edit
+                  </Button>
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  <Button
+                    className="cursor-pointer"
+                    variant={"destructive"}
+                    onClick={async () => {
+                      try {
+                        await deleteData(user.id);
+                        fetchPaginatedData();
+                      } catch (error) {
+                        console.error(error);
+                        toast("Failed to delete");
+                      }
+                    }}
+                  >
+                    Delete
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
         </Table>
         <Paginations
-            totalPages={totalPages}
-            currentPage={currentPage}
-            setCurrentPage={setCurrentPage}
+          totalPages={totalPages}
+          currentPage={currentPage}
+          setCurrentPage={setCurrentPage}
         />
 
-            {editingId !== null &&(
-                <InventoryDialog
-                    id={editingId}
-                    open={dialogOpen}
-                    setOpen={setDialogOpen}
-                    onUpdate={fetchPaginatedData}
-                />
-            )}
-
-        </div>
-    )
+        {editingId !== null && (
+          <InventoryDialog
+            id={editingId}
+            open={dialogOpen}
+            setOpen={setDialogOpen}
+            onUpdate={fetchPaginatedData}
+          />
+        )}
+      </div>
+    );
 }
 export default InventoryTable
