@@ -8,8 +8,6 @@ import {Select,SelectContent,SelectItem,SelectTrigger,SelectValue} from "@/compo
 import { Paginations } from "./Paginations";
 import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
 
 const api = process.env.NEXT_PUBLIC_API_URL ?? "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
 
@@ -45,7 +43,8 @@ export default function AdminOrderManageTable(){
     const getUserData = useCallback(async () => {
         try{
             const res = await axios.get(
-              `${api}/order/admin-orders?page=${currentPage}&size=8&search=${searchTerm}`)
+              `${api}/order/admin-orders?page=${currentPage}&size=8&userName=${searchTerm}`
+            );
             setData(res.data.content);
             setTotalPages(res.data.totalPages);
         }catch (error){
@@ -78,10 +77,6 @@ export default function AdminOrderManageTable(){
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
           />
-
-          <Button onClick={getUserData}>
-            <Image src="/search-icon.png" height={25} width={20} alt="search"/>
-            </Button>
         </div>
 
         <Table className="w-2/3 ml-auto mr-auto">
