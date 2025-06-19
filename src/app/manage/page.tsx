@@ -1,7 +1,6 @@
 "use client"
 
 import AdminOrderManageTable from "@/components/AdminOrderManageTable";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
@@ -11,7 +10,6 @@ import { useState } from "react"
 export default function Manage(){
 
     const [admin, setAdmin] = useState(false);
-    const [userTable, setUserTable] = useState(false);
     const [user,setUser] = useState("");
 
     
@@ -19,12 +17,18 @@ export default function Manage(){
       <>
         <div className="flex justify-end">
           <div className="flex items-center space-x-2 mr-32 mt-8">
-            <Switch id="admin" checked={admin} onCheckedChange={setAdmin} />
+            <Switch id="admin" 
+            checked={admin} 
+            onCheckedChange={(checked) => {
+              setAdmin(checked);
+              setUser("");
+            }} 
+            />
             <Label>Admin</Label>
           </div>
         </div>
 
-        {admin == false &&
+        { !admin &&
         <div>
           <Label className="ml-64 mb-4">
             Enter your name to see the orders
@@ -38,24 +42,13 @@ export default function Manage(){
               value={user}
               onChange={(e) => setUser(e.target.value)}
             />
-            <Button
-              type="submit"
-              variant="outline"
-              onClick={() => setUserTable(true)}
-            >
-              Enter
-            </Button>
+           
           </div>
         </div> }
 
         <div>
-          {admin ? (
-            <AdminOrderManageTable />
-          ) : userTable ? (
-            <UserOrderManageTable name={user} />
-          ) : (
-            <></>
-          )}
+          {admin && <AdminOrderManageTable/>}
+          {!admin && user && <UserOrderManageTable name={user}/>}
         </div>
       </>
     );
