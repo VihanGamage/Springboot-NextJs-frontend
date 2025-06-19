@@ -65,7 +65,7 @@ export default function Login(){
 
     return (
       <>
-        <div className="border border-gray-400 rounded-lg p-6 mt-40 w-80 mx-auto">
+        <div className="border border-gray-400 rounded-lg p-6 mt-20 w-80 mx-auto">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(onSubmit)}

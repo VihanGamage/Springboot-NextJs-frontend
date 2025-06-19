@@ -56,17 +56,14 @@ export default function Register() {
       toast.error("register failed");
     } else {
       console.log(`success - ${res.text}`);
-      const result = await res.json();
       toast.success("register Successful");
-
-      localStorage.setItem("token", result.token);
       router.push("/login");
     }
   }
 
   return (
     <>
-      <div className="border border-gray-400 rounded-lg p-6 mt-40 w-80 mx-auto">
+      <div className="border border-gray-400 rounded-lg p-6 mt-20 w-80 mx-auto">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
