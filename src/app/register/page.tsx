@@ -16,6 +16,8 @@ import React from "react";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { Label } from "@/components/ui/label";
+import Image from "next/image";
 
 const api =
   process.env.NEXT_PUBLIC_API_URL ??
@@ -60,6 +62,10 @@ export default function Register() {
 
   return (
     <>
+    <div className="flex items-center justify-center mx-auto w-fit space-x-2 mt-12">
+            <Image src="/logo-image.png" width="40" height="15" alt={"logo"} />
+            <Label className="text-4xl font-medium">Welcome to the Store App</Label>
+          </div>
       <div className="border border-gray-400 rounded-lg p-6 mt-20 w-80 mx-auto">
         <Form {...form}>
           <form
