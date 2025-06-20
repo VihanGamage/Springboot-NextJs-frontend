@@ -39,7 +39,6 @@ export default function Login(){
     });
 
     async function onSubmit(data : FormValues) {
-            console.log(data)
             const res = await fetch(`${api}/auth/login`, {
               method: "POST",
               headers: {
@@ -51,15 +50,17 @@ export default function Login(){
               }),
             });
             if (!res.ok) {
-                console.log(`${res.status} - ${res.text}`)
                 toast.error("Login failed");
             } else {
-                console.log(`success - ${res.text}`);
-                const result = await res.json();
-                toast.success("Login Successful");
-
-                localStorage.setItem("token", result.token);
-                router.push("/productTable");
+                
+                const result = await res.text();
+                if (result==="true"){
+                  toast.success("Login Successful");
+                  // localStorage.setItem("token", result.token);
+                  router.push("/productTable");
+                }else{
+                  toast.error("Invalid Creditianls");
+                }
             }
         }
 

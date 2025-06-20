@@ -40,7 +40,6 @@ export default function Register() {
   });
 
   async function onSubmit(data: FormValues) {
-    console.log(data);
     const res = await fetch(`${api}/auth/register`, {
       method: "POST",
       headers: {
@@ -52,10 +51,8 @@ export default function Register() {
       }),
     });
     if (!res.ok) {
-      console.log(`${res.status} - ${res.text}`);
       toast.error("register failed");
     } else {
-      console.log(`success - ${res.text}`);
       toast.success("register Successful");
       router.push("/login");
     }
