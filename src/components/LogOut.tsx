@@ -19,7 +19,11 @@ export default function LogOut(){
 
     return (
       <div className="absolute top-0 right-12 m-4">
-        <Button variant={"destructive"} onClick={handleLogout}>
+        <Button
+          className="cursor-pointer"
+          variant={"destructive"}
+          onClick={handleLogout}
+        >
           Log out
         </Button>
       </div>
