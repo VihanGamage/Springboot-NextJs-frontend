@@ -12,7 +12,6 @@ import { toast } from "sonner"
 const api = process.env.NEXT_PUBLIC_API_URL ?? "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
 
 const FormSchema = z.object({
-    name: z.string().min(1,"name is required"),
     address: z.string().min(1,"address is required")
 })
 
@@ -29,7 +28,6 @@ export default function OrderForm({productName,quantity,onClose} : UpdateFormPro
     const form = useForm({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            name: "",
             address: ""
         },
     })

@@ -9,14 +9,14 @@ import { format } from "date-fns";
 
 const api = process.env.NEXT_PUBLIC_API_URL ?? "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
 
-interface DataProps{
-    id:number;
-    productName:string;
-    quantity:number;
-    total:number;
-    address:string;
-    orderStatus:string;
-    placed_at:string;
+interface DataProps {
+  id: number;
+  productName: string;
+  quantity: number;
+  address: string;
+  total: number;
+  orderStatus: string;
+  placed_at: string;
 }
 
 interface Props{

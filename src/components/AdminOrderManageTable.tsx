@@ -11,15 +11,15 @@ import { Input } from "@/components/ui/input";
 
 const api = process.env.NEXT_PUBLIC_API_URL ?? "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
 
-interface DataProps{
-    id:number;
-    userName:string;
-    productName:string;
-    quantity:number;
-    total:number;
-    address:string;
-    orderStatus:string;
-    placed_at:string;
+interface DataProps {
+  id: number;
+  userName: string;
+  productName: string;
+  quantity: number;
+  address: string;
+  total: number;
+  orderStatus: string;
+  placed_at: string;
 }
 
 async function updateOrderStatus(id:number, orderStatus:string) {
