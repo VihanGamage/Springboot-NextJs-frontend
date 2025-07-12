@@ -19,8 +19,12 @@ interface Product{
 const api = process.env.NEXT_PUBLIC_API_URL ?? "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
 
 async function deleteData(id:number) : Promise<void> {
-    const res = await fetch(`${api}/product/delete-${id}`,{
-        method:'DELETE',
+  const token = localStorage.getItem("token");
+    const res = await fetch(`${api}/product/delete-${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     if (!res.ok){
         throw new Error("failed")
@@ -30,10 +34,14 @@ async function deleteData(id:number) : Promise<void> {
 }
 
 async function saveProduct(product: {name:string; price:number} ) : Promise<void>{
-    const res = await fetch(`${api}/product/save`,{
-        method:'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(product),
+  const token = localStorage.getItem("token");
+    const res = await fetch(`${api}/product/save`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(product),
     });
     if (!res.ok) {
         toast.error("Failed to add product");
@@ -53,7 +61,15 @@ function ProductTable() {
       
       const fetchPaginatedData = useCallback(async () => {
         try {
-          const res = await axios.get(`${api}/product/all?page=${currentPage}&size=8`);
+          const token = localStorage.getItem("token");
+          const res = await axios.get(
+            `${api}/product/all?page=${currentPage}&size=8`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
           setData(res.data.content);
           setTotalPages(res.data.totalPages);
         } catch (error) {

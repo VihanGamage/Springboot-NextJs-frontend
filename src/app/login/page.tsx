@@ -55,14 +55,14 @@ export default function Login(){
                 toast.error("Login failed");
             } else {
                 
-                const result = await res.text();
-                if (result==="true"){
-                  toast.success("Login Successful");
-                  // localStorage.setItem("token", result.token);
-                  router.push("/productTable");
-                }else{
-                  toast.error("Invalid Creditianls");
-                }
+              const result = await res.json(); 
+              if (result.token) {
+                toast.success("Login Successful");
+                localStorage.setItem("token", result.token); //save jwt
+                router.push("/productTable");
+              } else {
+                toast.error("Invalid Creditianls");
+              }
             }
         }
 
