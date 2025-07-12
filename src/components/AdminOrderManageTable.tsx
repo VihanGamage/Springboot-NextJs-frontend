@@ -22,8 +22,12 @@ interface DataProps{
 }
 
 async function updateOrderStatus(id:number, orderStatus:string) {
-    const res = await fetch(`${api}/order/patch-${id}-${orderStatus}`,{
-            method:'PATCH',
+  const token = localStorage.getItem("token");
+    const res = await fetch(`${api}/order/patch-${id}-${orderStatus}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     if (!res.ok){
         throw new Error("failed")
@@ -42,8 +46,14 @@ export default function AdminOrderManageTable(){
 
     const getUserData = useCallback(async () => {
         try{
+          const token = localStorage.getItem("token");
             const res = await axios.get(
-              `${api}/order/admin-orders?page=${currentPage}&size=8&userName=${searchTerm}`
+              `${api}/order/admin-orders?page=${currentPage}&size=8&userName=${searchTerm}`,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
             );
             setData(res.data.content);
             setTotalPages(res.data.totalPages);

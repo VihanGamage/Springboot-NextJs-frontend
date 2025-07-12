@@ -35,17 +35,19 @@ export default function OrderForm({productName,quantity,onClose} : UpdateFormPro
     })
 
     async function onSubmit(data : FormValues) {
+        const token = localStorage.getItem("token");
         const res = await fetch(`${api}/order/save`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: data.name,
-                address: data.address,
-                quantity:quantity,
-                productName:productName
-            }),
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            name: data.name,
+            address: data.address,
+            quantity: quantity,
+            productName: productName,
+          }),
         });
         if (!res.ok) {
             console.log(`Not valid URL! \nStatus: ${res.status}, ${res.statusText}`)

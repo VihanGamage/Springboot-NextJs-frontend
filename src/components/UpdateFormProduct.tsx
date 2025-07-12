@@ -24,7 +24,12 @@ interface UpdateFormProps {
 }
 
 async function getFormData(id: number): Promise<{ name: string; price: number }> {
-    const res = await fetch(`${api}/product/get-${id}`);
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${api}/product/get-${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     if (!res.ok) {
         throw new Error("Failed to fetch product");
     }
@@ -62,15 +67,17 @@ export default function UpdateFormProduct({id, onClose} : UpdateFormProps) {
 
     async function onSubmit(data : FormValues) {
         console.log(data)
+        const token = localStorage.getItem("token");
         const res = await fetch(`${api}/product/put-${id}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                name: data.name,
-                price: data.price
-            }),
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            name: data.name,
+            price: data.price,
+          }),
         });
         if (!res.ok) {
             console.log(`Not valid URL! \nStatus: ${res.status}, ${res.statusText}`)

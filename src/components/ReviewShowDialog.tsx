@@ -24,7 +24,15 @@ export default function ReviewShowDialog({showProductName,open,setOpen} : Dialog
 
     const getData = useCallback(async () => {
         try {
-          const res = await axios.get(`${api}/review/getall-${showProductName}`);
+            const token = localStorage.getItem("token");
+          const res = await axios.get(
+            `${api}/review/getall-${showProductName}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
           setData(res.data);
         } catch (error) {
           console.error("Error fetching data:", error);

@@ -23,8 +23,12 @@ interface Props{
 }
 
 async function cancelOrder(id:number) : Promise<void>{
-    const res = await fetch(`${api}/order/cancel-${id}`,{
-            method:'PATCH',
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${api}/order/cancel-${id}`, {
+      method: "PATCH",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     if (!res.ok){
         throw new Error("failed")
@@ -40,7 +44,12 @@ export default function UserOrderManageTable( {name} : Props ){
 
     const getUserData = useCallback(async () => {
         try{
-            const res = await axios.get(`${api}/order/user-${name}`)
+            const token = localStorage.getItem("token");
+            const res = await axios.get(`${api}/order/user-${name}`, {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            });
             setData(res.data);
         }catch (error){
             console.error("Error fetching data:", error);

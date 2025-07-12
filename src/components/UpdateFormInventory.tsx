@@ -23,7 +23,12 @@ interface UpdateFormProps {
 }
 
 async function getFormData(id: number): Promise<{ name: string; capacity: number }> {
-    const res = await fetch(`${api}/inventory/get-${id}`);
+    const token = localStorage.getItem("token");
+    const res = await fetch(`${api}/inventory/get-${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
     if (!res.ok) {
         throw new Error("Failed to fetch inventory");
     }
@@ -58,9 +63,17 @@ export default function UpdateFormInventory({id, onClose} : UpdateFormProps) {
 
     async function onSubmit(data : FormValues) {
         console.log(data)
-        const res = await fetch(`${api}/inventory/put-${id}?capacity=${data.capacity}`, {
-            method: 'PUT',
-        });
+        const token = localStorage.getItem("token");
+        const res = await fetch(
+          `${api}/inventory/put-${id}?capacity=${data.capacity}`,
+          {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
         if (!res.ok) {
             console.log(`Not valid URL! \nStatus: ${res.status}, ${res.statusText}`)
         } else {

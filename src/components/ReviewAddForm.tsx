@@ -33,14 +33,16 @@ export default function ReviewAddForm({productName, onClose} : UpdateFormProps) 
 
     async function onSubmit(data : FormValues) {
         console.log(data)
+        const token = localStorage.getItem("token");
         const res = await fetch(`${api}/review/save-${productName}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                review: data.review
-            }),
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({
+            review: data.review,
+          }),
         });
         if (!res.ok) {
             console.log(`Not valid URL! \nStatus: ${res.status}, ${res.statusText}`)
