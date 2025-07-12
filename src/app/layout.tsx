@@ -4,6 +4,7 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner"
 import { ThemeProvider } from "@/components/theme-provider";
 import { ModeToggle } from "@/components/modeToggle";
+import LogOut from "@/components/LogOut";
 
 
 const geistSans = Geist({
@@ -37,6 +38,7 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
+          <LogOut/>
           <ModeToggle/>  
           {children}
           <Toaster />
