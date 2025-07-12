@@ -14,6 +14,7 @@ interface DataProps{
     productName:string;
     quantity:number;
     total:number;
+    address:string;
     orderStatus:string;
     placed_at:string;
 }
@@ -60,55 +61,83 @@ export default function UserOrderManageTable( {name} : Props ){
         getUserData();
     }, [getUserData]);
     
-    return(
-        <>
-            <Table className="w-2/3 ml-auto mr-auto mt-4">
-            <TableHeader className="bg-gray-500">
-                <TableRow>
-                    <TableHead className="font-bold text-center text-base">ID</TableHead>
-                    <TableHead className="font-bold text-center text-base">product Name</TableHead>
-                    <TableHead className="font-bold text-center text-base">Quantity</TableHead>
-                    <TableHead className="font-bold text-center text-base">Price</TableHead>
-                    <TableHead className="font-bold text-center text-base">order Status</TableHead>
-                    <TableHead className="font-bold text-center text-base">placed Time</TableHead>
-                    <TableHead className="font-bold text-center text-base">Cancel</TableHead>
-                </TableRow>
-            </TableHeader>
-            <TableBody>
-                {data?.map((user:DataProps) => (
-                    <TableRow key={user.id}>
-                        <TableCell className="font-normal text-center">{user.id}</TableCell>
-                        <TableCell className="font-medium text-center">{user.productName}</TableCell>
-                        <TableCell className="font-medium text-center">{user.quantity}</TableCell>
-                        <TableCell className="font-medium text-center">{user.total}</TableCell>
-                        <TableCell className="font-medium text-center">{user.orderStatus}</TableCell>
-                        <TableCell className="font-medium text-center">
-                            {format(new Date(user.placed_at), "PPp")}
-                        </TableCell>
+    return (
+      <>
+        <Table className="w-2/3 ml-auto mr-auto mt-4">
+          <TableHeader className="bg-gray-500">
+            <TableRow>
+              <TableHead className="font-bold text-center text-base">
+                ID
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                product Name
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                Quantity
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                Price
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                Address
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                order Status
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                placed Time
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                Cancel
+              </TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {data?.map((user: DataProps) => (
+              <TableRow key={user.id}>
+                <TableCell className="font-normal text-center">
+                  {user.id}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {user.productName}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {user.quantity}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {user.total}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {user.address}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {user.orderStatus}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {format(new Date(user.placed_at), "PPp")}
+                </TableCell>
 
-                        <TableCell className="font-medium text-center">
-                            <Button 
-                            className="cursor-pointer"
-                            variant={"destructive"}
-                            onClick={async () => {
-                                try{
-                                    await cancelOrder(user.id);
-                                    await getUserData();
-                                }catch (error){
-                                    console.error(error);
-                                    toast("Failed to cancel order");
-                                }
-                            }}
-                            >
-                                Cancel
-                            </Button>
-                        </TableCell>
-
-
-                    </TableRow>
-                ))}
-            </TableBody>
+                <TableCell className="font-medium text-center">
+                  <Button
+                    className="cursor-pointer"
+                    variant={"destructive"}
+                    onClick={async () => {
+                      try {
+                        await cancelOrder(user.id);
+                        await getUserData();
+                      } catch (error) {
+                        console.error(error);
+                        toast("Failed to cancel order");
+                      }
+                    }}
+                  >
+                    Cancel
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
         </Table>
-        </>
-    )
+      </>
+    );
 }

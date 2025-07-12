@@ -17,6 +17,7 @@ interface DataProps{
     productName:string;
     quantity:number;
     total:number;
+    address:string;
     orderStatus:string;
     placed_at:string;
 }
@@ -83,9 +84,11 @@ export default function AdminOrderManageTable(){
     return (
       <>
         <div className="ml-auto mr-64 w-56 flex mt-6 mb-1">
-          <Input type="text" placeholder="Search" 
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          <Input
+            type="text"
+            placeholder="Search"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
         </div>
 
@@ -106,6 +109,9 @@ export default function AdminOrderManageTable(){
               </TableHead>
               <TableHead className="font-bold text-center text-base">
                 Price
+              </TableHead>
+              <TableHead className="font-bold text-center text-base">
+                Address
               </TableHead>
               <TableHead className="font-bold text-center text-base">
                 order Status
@@ -132,6 +138,9 @@ export default function AdminOrderManageTable(){
                 </TableCell>
                 <TableCell className="font-medium text-center">
                   {user.total}
+                </TableCell>
+                <TableCell className="font-medium text-center">
+                  {user.address}
                 </TableCell>
 
                 <TableCell className="font-medium text-center align-middle">

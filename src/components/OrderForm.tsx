@@ -43,7 +43,6 @@ export default function OrderForm({productName,quantity,onClose} : UpdateFormPro
             Authorization: `Bearer ${token}`,
           },
           body: JSON.stringify({
-            name: data.name,
             address: data.address,
             quantity: quantity,
             productName: productName,
@@ -62,19 +61,6 @@ export default function OrderForm({productName,quantity,onClose} : UpdateFormPro
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 
-                <FormField
-                        control={form.control}
-                        name="name"
-                        render={({field}) => (
-                            <FormItem>
-                                <FormLabel>Name</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Name" {...field} />
-                                </FormControl>
-                                <FormMessage/>
-                            </FormItem>
-                        )}
-                    />
 
                     <FormField
                         control={form.control}
