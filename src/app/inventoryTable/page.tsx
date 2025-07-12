@@ -18,8 +18,12 @@ interface Inventory{
 const api = process.env.NEXT_PUBLIC_API_URL ?? "https://ecommerce-store-vihan-bkeqaqfhc2czd7gy.southindia-01.azurewebsites.net";
 
 async function deleteData(id:number) : Promise<void> {
-    const res = await fetch(`${api}/inventory/delete-${id}`,{
-        method:'DELETE',
+  const token = localStorage.getItem("token");
+    const res = await fetch(`${api}/inventory/delete-${id}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
     });
     if (!res.ok){
         throw new Error("failed")
@@ -39,7 +43,15 @@ function InventoryTable() {
       
       const fetchPaginatedData = useCallback(async () => {
         try {
-          const res = await axios.get(`${api}/inventory/all?page=${currentPage}&size=8`);
+          const token = localStorage.getItem("token");
+          const res = await axios.get(
+            `${api}/inventory/all?page=${currentPage}&size=8`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
           setData(res.data.content);
           setTotalPages(res.data.totalPages);
         } catch (error) {

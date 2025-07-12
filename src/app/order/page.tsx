@@ -28,7 +28,15 @@ export default function Order(){
 
     const fetchPaginatedData = useCallback(async () => {
         try {
-          const res = await axios.get(`${api}/order/table?page=${currentPage}&size=8`);
+          const token = localStorage.getItem("token");
+          const res = await axios.get(
+            `${api}/order/table?page=${currentPage}&size=8`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
           setData(res.data.content);
           setTotalPages(res.data.totalPages);
         } catch (error) {
