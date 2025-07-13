@@ -89,7 +89,7 @@ export default function Order(){
                   <Input
                     className="w-24 mx-auto"
                     type="text"
-                    placeholder="0"
+                    placeholder="1"
                     value={quantity[user.productName] || ""}
                     onChange={(e) =>
                       quantityHandler(e.target.value, user.productName)
