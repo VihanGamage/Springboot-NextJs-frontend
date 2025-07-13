@@ -90,7 +90,7 @@ export default function Order(){
                     className="w-24 mx-auto"
                     type="text"
                     placeholder="1"
-                    value={quantity[user.productName] || ""}
+                    value={quantity[user.productName] || "1"}
                     onChange={(e) =>
                       quantityHandler(e.target.value, user.productName)
                     }
@@ -119,11 +119,12 @@ export default function Order(){
         {orderDialogOpen && (
           <OrderDialog
             productName={productName}
-            quantity={Number(quantity[productName])}
+            quantity={Number(quantity[productName] || "1")}
             open={orderDialogOpen}
             setOpen={setOrderDialogOpen}
           />
         )}
+        
       </>
     );
 }

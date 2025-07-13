@@ -12,7 +12,7 @@ type OrderDialogProps = {
     setOpen : (open:boolean) => void;
 }
 
-export default function InventoryDialog({productName,quantity,open,setOpen}:OrderDialogProps){
+export default function OrderDialog({productName,quantity,open,setOpen}:OrderDialogProps){
 
     return(
         <Dialog open={open} onOpenChange={setOpen}>
