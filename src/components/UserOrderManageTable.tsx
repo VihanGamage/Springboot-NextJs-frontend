@@ -19,9 +19,6 @@ interface DataProps {
   placed_at: string;
 }
 
-interface Props{
-    name:string;
-}
 
 async function cancelOrder(id:number) : Promise<void>{
     const token = localStorage.getItem("token");
@@ -39,14 +36,14 @@ async function cancelOrder(id:number) : Promise<void>{
 }
 
 
-export default function UserOrderManageTable( {name} : Props ){
+export default function UserOrderManageTable(){
 
     const [data, setData] = useState<DataProps[]>([])
 
     const getUserData = useCallback(async () => {
         try{
             const token = localStorage.getItem("token");
-            const res = await axios.get(`${api}/order/user-${name}`, {
+            const res = await axios.get(`${api}/order/user-orders`, {
               headers: {
                 Authorization: `Bearer ${token}`,
               },
@@ -55,7 +52,7 @@ export default function UserOrderManageTable( {name} : Props ){
         }catch (error){
             console.error("Error fetching data:", error);
         } 
-    },[name]);
+    },[]);
 
     useEffect(() => {
         getUserData();
