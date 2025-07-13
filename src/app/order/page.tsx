@@ -100,7 +100,14 @@ export default function Order(){
                   <Button
                     className="cursor-pointer"
                     onClick={() => {
+                      
+                      setProductName(user.productName); 
+                      setQuantity((prev) => ({
+                        ...prev,
+                        [user.productName]: prev[user.productName] || "1",
+                      }));
                       setOrderDialogOpen(true);
+
                     }}
                   >
                     Buy
