@@ -55,29 +55,30 @@ export default function OrderForm({productName,quantity,onClose} : UpdateFormPro
     }
 
     return (
-        <div className="border border-gray-400 rounded-lg p-2 ml-1 mt-5 flex w-2/3">
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <div className="border border-gray-400 rounded-lg p-2 ml-1 mt-5 flex w-2/3">
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
 
 
-                    <FormField
-                        control={form.control}
-                        name="address"
+            <FormField
+              control={form.control}
+              name="address"
                         render={({field}) => (
-                            <FormItem>
-                                <FormLabel>Address</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Address" {...field} />
-                                </FormControl>
-                                <FormMessage/>
-                            </FormItem>
-                        )}
-                    />
+                <FormItem>
+                  <FormLabel>Address</FormLabel>
+                  <FormControl>
+                    <Input placeholder="Address" {...field} />
+                  </FormControl>
+                    <FormMessage/>
+                </FormItem>
+              )}
+            />
 
-                    <Button className="ml-2" type="submit">Submit</Button>
-                </form>
-            </Form>
-        </div>
-
-    )
+            <Button className="ml-2 cursor-pointer" type="submit">
+              Submit
+            </Button>
+          </form>
+        </Form>
+      </div>
+    );
 }
